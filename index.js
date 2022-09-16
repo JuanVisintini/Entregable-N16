@@ -9,6 +9,11 @@ const MongoStore = require("connect-mongo");
 const os = require('os');
 const cluster = require('cluster');
 
+const compression = require('compression')
+const winston = require("./winston")
+
+const { winstonInfo } = require("./winston/winstonLoger")
+
 const argumentos = require('./yargs');
 const PORT = argumentos.port;
 const MODO = argumentos.modo;
@@ -34,6 +39,7 @@ const mensajeSchema = new normalizr.schema.Entity('mensaje', {
 
 //Midlleware
 app.use(express.json());
+app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
